@@ -15,8 +15,6 @@ for i in range(1):
 
 ## Example 2 
 
-from datetime import date 
-
 Name = "Mahesh babu"
 age = 40 
 is_employed = True

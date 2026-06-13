@@ -1,0 +1,49 @@
+image: maven:3.9-eclipse-temurin-17
+
+pipelines:
+  defaults:
+    branches:
+      master:
+    - step: 
+       name: Build & Test 
+        script:
+          - mvn clean install 
+
+    - step: 
+        name: SonarQube Analysis
+        script:
+          -mvn sonar:sonar -Dsonar.projectKey=GIS-Applications -Dsonar.host.url=htttps://sonarcloud.io -Dsonar.token=$SONAR_Token
+
+#Token Directly in pipeline YAML 
+  - step:
+        name: SNY SCA 
+         script:
+          - npm install snyk -g 
+
+          - export SNYK_TOKEN=
+
+          - snyk auth $SNYK_TOKEN 
+
+          - SNYK Test  
+
+#Token in Bitbucket Repository Variables 
+    -step:
+        name: Snyk SCA 
+          script:
+
+          - npm install snyk -g 
+
+          - snyk auth $SNYK_Token 
+
+          - snyk test (SCA)
+
+          - snyk code test (SAST)
+
+          - snyk iac test (IaC)
+
+          - snyk monitor       
+
+          - snyk test --severity-threshold=critical,high 
+
+#Repository → Settings → Pipelines → Repository Variables
+    
